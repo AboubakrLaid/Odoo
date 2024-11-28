@@ -1,0 +1,57 @@
+version: "3.8"
+
+networks:
+  app_net:
+    ipam:
+      config:
+        - subnet: 100.0.0.0/24
+
+
+    
+services:
+  odoo:
+    container_name: container_odoo
+    image: odoo:17
+    user: root
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    volumes:
+      - ./config:/etc/odoo
+      - ./extra-addons:/mnt/extra-addons
+      - ./filestore:/var/lib/odoo
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo
+      - PGDATA:/var/lib/postgresql/data/pgdata
+    command: -- --dev=all
+    networks:
+      app_net:
+        ipv4_address: 100.0.0.20
+  db:
+    image: postgres:15
+    container_name: container_database
+    user: root
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+    volumes:
+       - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      app_net:
+        ipv4_address: 100.0.0.30
+
+
+volumes:
+  data:
+  odoo_data:
+  config:
+  extra-addons:
+  filestore:

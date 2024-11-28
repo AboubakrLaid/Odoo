@@ -1,0 +1,85 @@
+<odoo>
+    <!-- Service Model Views -->
+    <record id="view_service_tree" model="ir.ui.view">
+        <field name="name">services.service.tree</field>
+        <field name="model">services.service</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id"/>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="price"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_service_form" model="ir.ui.view">
+        <field name="name">services.service.form</field>
+        <field name="model">services.service</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="id" readonly="1"/>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="category_id"/>
+                        <field name="price"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Category Model Views -->
+    <record id="view_category_tree" model="ir.ui.view">
+        <field name="name">services.category.tree</field>
+        <field name="model">services.category</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_category_form" model="ir.ui.view">
+        <field name="name">services.category.form</field>
+        <field name="model">services.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="id" readonly="1"/>
+                        <field name="name"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_service" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="res_model">services.service</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_service_tree"/>
+    </record>
+
+    <record id="action_category" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">services.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_category_tree"/>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="services_menu" name="Services" sequence="10"/>
+
+    <!-- Service Menu -->
+    <menuitem id="menu_service" name="Services" parent="services_menu" action="action_service"/>
+
+    <!-- Category Menu -->
+    <menuitem id="menu_category" name="Categories" parent="services_menu" action="action_category"/>
+</odoo>
